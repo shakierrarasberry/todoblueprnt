@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+  <style>
+    /* ===== Google Font Import - Poppins ===== */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    transition: all 0.4s ease;;
+}
+
+
+/* ===== Colours ===== */
+:root{
+    --body-color: #E4E9F7;
+    --nav-color: #a6937a;
+    --side-nav: #a6937a;
+    --text-color: #FFF;
+    --search-bar: #F2F2F2;
+    --search-text: #010718;
+}
+
+body{
+    height: 100vh;
+    background-color: var(--body-color);
+}
+
+body.dark{
+    --body-color: #18191A;
+    --nav-color: #6f5f4b;
+    --side-nav: #6f5f4b;
+    --text-color: #242526;
+    --search-bar: ;
+}
+
+nav{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 70px;
+    width: 100%;
+    background-color: var(--nav-color);
+    z-index: 100;
+}
+
+body.dark nav{
+    border: 1px solid #6f5f4b;
+
+}
+
+nav .nav-bar{
+    position: relative;
+    height: 100%;
+    max-width: 1000px;
+    width: 100%;
+    background-color: var(--nav-color);
+    margin: 0 auto;
+    padding: 0 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+nav .nav-bar .sidebarOpen{
+    color: var(--text-color);
+    font-size: 25px;
+    padding: 5px;
+    cursor: pointer;
+    display: none;
+}
+
+nav .nav-bar .logo a{
+    font-size: 25px;
+    font-weight: 500;
+    color: var(--text-color);
+    text-decoration: none;
+}
+
+.menu .logo-toggle{
+    display: none;
+}
+
+.nav-bar .nav-links{
+    display: flex;
+    align-items: center;
+}
+
+.nav-bar .nav-links li{
+    margin: 0 5px;
+    list-style: none;
+}
+
+.nav-links li a{
+    position: relative;
+    font-size: 17px;
+    font-weight: 400;
+    color: var(--text-color);
+    text-decoration: none;
+    padding: 10px;
+}
+
+.nav-links li a::before{
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    height: 6px;
+    width: 6px;
+    border-radius: 50%;
+    background-color: var(--text-color);
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.nav-links li:hover a::before{
+    opacity: 1;
+}
+
+.nav-bar .darkLight-searchBox{
+    display: flex;
+    align-items: center;
+}
+
+.darkLight-searchBox .dark-light,
+.darkLight-searchBox .searchToggle{
+    height: 40px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 5px;
+}
+
+.dark-light i,
+.searchToggle i{
+    position: absolute;
+    color: var(--text-color);
+    font-size: 22px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.dark-light i.sun{
+    opacity: 0;
+    pointer-events: none;
+}
+
+.dark-light.active i.sun{
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.dark-light.active i.moon{
+    opacity: 0;
+    pointer-events: none;
+}
+
+.searchToggle i.cancel{
+    opacity: 0;
+    pointer-events: none;
+}
+
+.searchToggle.active i.cancel{
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.searchToggle.active i.search{
+    opacity: 0;
+    pointer-events: none;
+}
+
+.searchBox{
+    position: relative;
+}
+
+.searchBox .search-field{
+    position: absolute;
+    bottom: -85px;
+    right: 5px;
+    height: 50px;
+    width: 300px;
+    display: flex;
+    align-items: center;
+    background-color: var(--nav-color);
+    padding: 3px;
+    border-radius: 6px;
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+.searchToggle.active ~ .search-field{
+    bottom: -74px;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.search-field::before{
+    content: '';
+    position: absolute;
+    right: 14px;
+    top: -4px;
+    height: 12px;
+    width: 12px;
+    background-color: var(--nav-color);
+    transform: rotate(-45deg);
+    z-index: -1;
+}
+
+.search-field input{
+    height: 100%;
+    width: 100%;
+    padding: 0 45px 0 15px;
+    outline: none;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--search-text);
+    background-color: var(--search-bar);
+}
+
+body.dark .search-field input{
+    color: var(--text-color);
+}
+
+.search-field i{
+    position: absolute;
+    color: var(--nav-color);
+    right: 15px;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+body.dark .search-field i{
+    color: var(--text-color);
+}
+
+@media (max-width: 790px) {
+    nav .nav-bar .sidebarOpen{
+        display: block;
+    }
+
+    .menu{
+        position: fixed;
+        height: 100%;
+        width: 320px;
+        left: -100%;
+        top: 0;
+        padding: 20px;
+        background-color: var(--side-nav);
+        z-index: 100;
+        transition: all 0.4s ease;
+    }
+
+    nav.active .menu{
+        left: -0%;
+    }
+
+    nav.active .nav-bar .navLogo a{
+        opacity: 0;
+        transition: all 0.3s ease;
+    }
+
+    .menu .logo-toggle{
+        display: block;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .logo-toggle .siderbarClose{
+        color: var(--text-color);
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    .nav-bar .nav-links{
+        flex-direction: column;
+        padding-top: 30px;
+    }
+
+    .nav-links li a{
+        display: block;
+        margin-top: 20px;
+    }
+}
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .todo-container {
+            max-width: 700px;
+            background-color: #fff;
+            padding: 20px;
+            margin-left: 10px;
+            margin: auto ;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            
+            
+            
+        }
+
+        #tutor{
+            text-align: center;
+            color: #B4B4B8;
+        }
+
+        input[type="text"] {
+            width: 70%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin-left: 10px;
+            background-color: #CEE5D0;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #CEE5D0;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            position: relative;
+        }
+
+        li:last-child {
+            border-bottom: none;
+        }
+
+        .delete {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            background-color: #FF7878;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            width: 8px;
+            height: 30px;
+            cursor: pointer;
+            padding-left: 13px;
+            padding-bottom: 25px;
+        }
+
+        .delete:hover {
+            background-color: #FF7878;
+        }
+
+        .completed {
+            text-decoration: line-through;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* 2 grid untuk tampilan komputer */
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            /* Untuk tampilan HP */
+            .container {
+                grid-template-columns: 1fr; /* 1 grid untuk tampilan HP */
+            }
+        }
+      .fother{
+        color: #FFF;
+        background-color: #a6937a;
+      }
+      
+
+  </style>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ===== CSS ===== -->
+    <link rel="stylesheet" href="style.css">
+        
+    <!-- ===== Boxicons CSS ===== -->
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+
+     <title>to do list</title>
+</head>
+<body>
+    <nav>
+        <div class="nav-bar">
+            <i class='bx bx-menu sidebarOpen' ></i>
+            <span class="logo navLogo"><a href="#">ToDoBlueprint</a></span>
+              
+            <div class="menu">
+                <div class="logo-toggle">
+                    <span class="logo"><a href="#">ToDoBlueprint</a></span>
+                    <i class='bx bx-x siderbarClose'></i>
+                </div>
+                
+                <ul class="nav-links">
+                    <li><a href="#"> to do list</a></li>
+                    <li><a href="#tutor">ways of working </a></li>
+                </ul>
+            </div>
+
+            <div class="darkLight-searchBox">
+                <div class="dark-light" onclick="changeBackground()" id="ppp">
+                    <i class='bx bx-moon moon'></i>
+                    <i class='bx bx-sun sun'></i>
+                </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <br>
+     <br>
+  <div>
+
+<
+<div class="container">
+    <div class="col">
+<div class="todo-container" >
+    
+    <input type="text" id="taskInput" placeholder="Add new task" style="margin-top:10px">
+    <button onclick="addTask()">Add</button>
+    <ul id="taskList">
+        <!-- Daftar tugas akan ditampilkan di sini -->
+    </ul>
+</div>
+</div>
+<div class="col">
+   <img id="gambarID" src="b.png" alt="dark" style="width:500px;">
+  </div>
+  </div>
+  
+    <h1 style="margin-top:50px" id="tutor">
+      bagaimana cara menggunakannya?
+    </h1>
+    <h3 id="tutor">
+   how to use it ?
+    </h3>
+    <li id="tutor">
+    <strong>1. Buatlah Daftar Tugas:</strong> Masukkan tugas baru ke dalam input dan klik tombol "Add" untuk menambahkan tugas baru ke dalam daftar.
+</li>
+<li id="tutor">
+    <strong>2. Tandai Sebagai Selesai:</strong> Klik pada tugas yang sudah selesai untuk menandainya sebagai selesai. Tugas yang telah selesai akan memiliki garis melintang di atasnya.
+</li>
+<li id="tutor">
+    <strong>3. Hapus Tugas:</strong> Untuk menghapus tugas, klik tombol "X" di sebelah kanan tugas yang ingin dihapus.
+</li>
+<li id="tutor">
+    <strong>4. Mode Gelap/Terang:</strong> Klik ikon mode (matahari/bulan) di sudut kanan atas untuk beralih antara mode gelap dan mode terang. Ini akan mengubah tampilan halaman menjadi mode gelap atau mode terang, sesuai dengan preferensi Anda.
+</li>
+<li id="tutor">
+    <strong>5. Penyimpanan Otomatis:</strong> Tugas yang Anda tambahkan, tandai sebagai selesai, atau hapus akan disimpan secara otomatis di localStorage, sehingga ketika Anda kembali ke halaman, tugas-tugas tersebut akan tetap ada.
+</li>
+  </div>
+<br>
+<footer>
+    <div class="container fother" >
+      <div id="footerText" class="row">
+        <div class="col-lg-12">
+          <p>Copyright © 2024 ToDoBlueprint
+          <br>
+        </div>
+      </div>
+    </div>
+  </footer>
+<script>
+
+const body = document.querySelector("body"),
+      nav = document.querySelector("nav"),
+      modeToggle = document.querySelector(".dark-light"),
+      sidebarOpen = document.querySelector(".sidebarOpen"),
+      siderbarClose = document.querySelector(".siderbarClose");
+
+      let getMode = localStorage.getItem("mode");
+          if(getMode && getMode === "dark-mode"){
+            body.classList.add("dark");
+          }
+
+// js code to toggle dark and light mode
+      modeToggle.addEventListener("click" , () =>{
+        modeToggle.classList.toggle("active");
+        body.classList.toggle("dark");
+
+        // js code to keep user selected mode even page refresh or file reopen
+        if(!body.classList.contains("dark")){
+            localStorage.setItem("mode" , "light-mode");
+        }else{
+            localStorage.setItem("mode" , "dark-mode");
+        }
+      });
+
+
+      
+//   js code to toggle sidebar
+sidebarOpen.addEventListener("click" , () =>{
+    nav.classList.add("active");
+});
+
+body.addEventListener("click" , e =>{
+    let clickedElm = e.target;
+
+    if(!clickedElm.classList.contains("sidebarOpen") && !clickedElm.classList.contains("menu")){
+        nav.classList.remove("active");
+    }
+});
+function addTask() {
+    var taskInput = document.getElementById("taskInput");
+    var taskList = document.getElementById("taskList");
+
+    if (taskInput.value.trim() !== "") {
+        var li = document.createElement("li");
+        var span = document.createElement("span");
+        span.textContent = taskInput.value;
+        li.appendChild(span);
+
+        var deleteButton = document.createElement("button");
+        deleteButton.textContent = "X";
+        deleteButton.className = "delete";
+        deleteButton.onclick = function () {
+            li.remove();
+            updateLocalStorage();
+        };
+        li.appendChild(deleteButton);
+
+        li.onclick = function () {
+            li.classList.toggle("completed");
+            updateLocalStorage();
+        };
+
+        taskList.appendChild(li);
+        taskInput.value = "";
+
+        // Menyimpan data list todo ke dalam localStorage
+        updateLocalStorage();
+    }
+}
+
+function updateLocalStorage() {
+    var tasks = [];
+    document.querySelectorAll("#taskList li span").forEach(function (task) {
+        tasks.push(task.textContent);
+    });
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+}
+
+function loadTasks() {
+    var tasks = JSON.parse(localStorage.getItem("tasks"));
+    if (tasks) {
+        tasks.forEach(function (taskText) {
+            var li = document.createElement("li");
+            var span = document.createElement("span");
+            span.textContent = taskText;
+            li.appendChild(span);
+
+            var deleteButton = document.createElement("button");
+            deleteButton.textContent = "X";
+            deleteButton.className = "delete";
+            deleteButton.onclick = function () {
+                li.remove();
+                updateLocalStorage();
+            };
+            li.appendChild(deleteButton);
+
+            li.onclick = function () {
+                li.classList.toggle("completed");
+                updateLocalStorage();
+            };
+
+            taskList.appendChild(li);
+        });
+    }
+}
+
+// Memuat tugas saat halaman dimuat
+loadTasks();
+
+    /////////////
+       function changeBackground() {
+    var body = document.body;
+
+    // Cek apakah latar belakang saat ini adalah putih
+    if (body.style.backgroundColor === 'white' || body.style.backgroundColor === '') {
+        // Jika ya, ganti menjadi latar belakang gelap dan ubah visibilitas ikon
+        body.style.backgroundColor = '#222831';
+        document.querySelector('.moon-icon').style.display = 'none';
+        document.querySelector('.sun-icon').style.display = 'inline-block';
+        document.getElementById('tutor').style.color = '#FFF'; // Ubah warna teks pada bagian 'tutor'
+        document.getElementById('footerText').style.color = '#FFF'; // Ubah warna teks pada footer
+    } else {
+        // Jika tidak, kembalikan ke latar belakang putih dan ubah visibilitas ikon
+        body.style.backgroundColor = 'white';
+        document.querySelector('.moon-icon').style.display = 'inline-block';
+        document.querySelector('.sun-icon').style.display = 'none';
+        document.getElementById('tutor').style.color = '#000'; // Ubah warna teks pada bagian 'tutor'
+        document.getElementById('footerText').style.color = '#000'; // Ubah warna teks pada footer
+    }
+}
+              document.getElementById('ppp').addEventListener('click', function() {
+      var gambar = document.getElementById('gambarID');
+      gambar.src = "b.png"; + '</br>';
+    });
+
+</script>
+</body>
+<body>
+
+<script>
+
+</script>
+</body>
+</html>
